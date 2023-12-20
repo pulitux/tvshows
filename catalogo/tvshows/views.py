@@ -1,21 +1,19 @@
-from django.shortcuts import render
-from .models import Personaje
+from django.shortcuts import render, HttpResponse
+from .models import Personaje, Catalogo
 
 import requests
 import json
 
+catalogo = Catalogo()
+
+def index(request):
+    # contexto = {'lista': catalogo.personajes,
+    #             'all': True}
+    return render(request, 'catalogo/index.html')
+
 
 def p_lista(request):
-    lista = []
-    url = 'https://apiseriespersonajes.azurewebsites.net/api/Personajes'
-    response = requests.get(url)
-    personajes = response.json()
-    for personaje in personajes:
-        lista.append((personaje['idPersonaje'],
-                      personaje['nombre'],
-                      personaje['imagen'],
-                      personaje['idSerie']))
-    contexto = {'lista': lista,
+    contexto = {'catalogo': catalogo,
                 'all': True}
     return render(request, 'personajes/index.html', contexto)
 
@@ -39,8 +37,8 @@ def p_search(request):
 
 def p_ficha(request):
     personaje = Personaje()
-    personaje.idPersonaje = request.GET.get('id')
-    personaje.read()
+    id = request.GET.get('id')
+    personaje.read(id)
     p = {'idPersonaje': personaje.idPersonaje,
          'nombre': personaje.nombre,
          'imagen': personaje.imagen,
@@ -74,22 +72,14 @@ def p_add(request):
     return render(request, 'personajes/ficha.html', p)
 
 
-
-def p_operate(request):
-    op = request.POST['operacion']
-    if op == 'delete':
-        p_delete(request)
-    elif op == 'update':
-        p_update(request)
-    else:
-        pass
-    return render(request, 'personajes/mod.html')
-
 def p_delete(request):
     personaje = Personaje()
-    personaje.idPersonaje = request.POST['idPersonaje']
+    personaje.idPersonaje = request.GET.get('id')
     personaje.delete()
-    return render(request, 'personaje/index.html')
+    catalogo = Catalogo()
+    contexto = {'catalogo': catalogo,
+                'all': True}
+    return render(request, 'personajes/index.html', contexto)
 
 
 def p_update(request):

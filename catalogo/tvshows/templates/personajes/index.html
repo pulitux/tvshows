@@ -30,7 +30,7 @@
     <div data-role="content">
         <fieldset style ="border: 3px solid black; padding: 20px; border-radius=10px color:black;">
 
-            <div id="botones1">
+            <div id="botones1">del/search
                 {% if all == False %}
                     <button type="button" onclick="window.location.href='/tvshows/personajes/lista';">Lista</button></br></br>
                 {% endif %}
@@ -76,12 +76,12 @@
                     <th>IMAGEN</th>
                     <th>SERIE</th>
                 </tr>
-                {% for id,name,imagen,serie in lista%}
+                {% for personaje in catalogo.personajes%}
                 <tr>
-                    <td>{{id}}</td>
-                    <td><a href="ficha/?id={{id}}">{{name}}</a></a></td>
-                    <td><img src="{{imagen}}" height="100" </td>
-                    <td>{{serie}}</td>
+                    <td>{{personaje.idPersonaje}}</td>
+                    <td><a href="ficha/?id={{personaje.idPersonaje}}">{{personaje.nombre}}</a></a></td>
+                    <td><img src="{{personaje.imagen}}" height="100" </td>
+                    <td>{{personaje.idSerie}}</td>
                 </tr>
                 {% endfor%}
             </table>

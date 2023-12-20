@@ -30,43 +30,49 @@
         <div data-role="header"><h2>Personajes</h2></div>
         <div data-role="content">
             <fieldset style ="border: 3px solid black; padding: 20px; border-radius=10px color:black;">
-                <div id = "botones1">
+                <form action = "/tvshows/personajes/operate" method="POST">
+                    {% csrf_token %}
+                <div id = "opciones_botones">
                     <button type="button" onclick="window.location.href='/tvshows/personajes/lista';">Lista</button>
-                    <button type="button" id="delete" name="operacion" value="delete">Borrar</button>
-                    <button type="button" id="modify" name="operacion" value="update">Modificar</button>
+                    <button type="button" id="delete">Borrar</button>
+                    <button type="button" id="modify">Modificar</button>
                 </div>
-                <div id="datos_borrar" style="display: none">
+                <div id="borrar" style="display: none">
                     <h4>Borrar personaje {{idPersonaje}} ?</h4>
+                    <button type="button" onclick="window.location.href='/tvshows/personajes/del/?id={{idPersonaje}}';">Borrar</button>
+                    <button type="button" id="cancel1">Cancelar</button>
                 </div>
-                <div id="datos_modificar" style="display: none">
+                <div id="modificar" style="display: none">
                     <h4>Modificar personaje {{idPersonaje}}</h4>
                     <input type="text" name="nombre" placeholder="nombre"></br></br>
                     <input type="text" name="imagen" placeholder="url de la imagen"></br></br>
                     <input type="text" name="idSerie" placeholder="id serie"></br></br>
+                    <button type="submit">Modificar</button>
+                    <button type="button" id="cancel2">Cancelar</button>
                 </div>
-                <div id="botones2" style="display: none">
-                    <button type="submit" name="modify">OK</button>
-                    <button type="button" id="cancel">Cancelar</button>
-                </div>
+
+                </form>
                 <script>
                     $(document).ready(function () {
                         $("#delete").click(function () {
-                            $("#botones1").hide("slow");
-                            $("#datos_borrar").show("slow");
-                            $("#datos_modificar").hide("slow");
-                            $("#botones2").show("slow");
+                            $("#opciones_botones").hide("slow");
+                            $("#borrar").show("slow");
+                            $("#modificar").hide("slow");
                         });
                         $("#modify").click(function () {
-                            $("#botones1").hide("slow");
-                            $("#datos_borrar").hide("slow");
-                            $("#datos_modificar").show("slow");
-                            $("#botones2").show("slow");
+                            $("#opciones_botones").hide("slow");
+                            $("#borrar").hide("slow");
+                            $("#modificar").show("slow");
                         });
-                        $("#cancel").click(function () {
-                            $("#botones1").show("slow");
-                            $("#datos_borrar").hide("slow");
-                            $("#datos_modificar").hide("slow");
-                            $("#botones2").hide("slow");
+                        $("#cancel1").click(function () {
+                            $("#opciones_botones").show("slow");
+                            $("#borrar").hide("slow");
+                            $("#modificar").hide("slow");
+                        });
+                        $("#cancel2").click(function () {
+                            $("#opciones_botones").show("slow");
+                            $("#borrar").hide("slow");
+                            $("#modificar").hide("slow");
                         });
                     });
                 </script>
