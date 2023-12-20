@@ -42,7 +42,7 @@
                 <button type="button" id="add" >Nuevo Personaje</button>
             </div>
             <div id="anyadir" style="display: none">
-                <form method="post" action="add">
+                <form method="post" action="/tvshows/personajes/add">
                     {% csrf_token %}
                     <h4>Añadir personaje</h4>
                     <input type="text" name="idPersonaje" placeholder="ID"></br></br>
