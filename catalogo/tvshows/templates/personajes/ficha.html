@@ -30,25 +30,34 @@
         <div data-role="header"><h2>Personajes</h2></div>
         <div data-role="content">
             <fieldset style ="border: 3px solid black; padding: 20px; border-radius=10px color:black;">
-                <form action = "/tvshows/personajes/operate" method="POST">
-                    {% csrf_token %}
                 <div id = "opciones_botones">
                     <button type="button" onclick="window.location.href='/tvshows/personajes/lista';">Lista</button>
                     <button type="button" id="delete">Borrar</button>
                     <button type="button" id="modify">Modificar</button>
                 </div>
                 <div id="borrar" style="display: none">
-                    <h4>Borrar personaje {{idPersonaje}} ?</h4>
-                    <button type="button" onclick="window.location.href='/tvshows/personajes/del/?id={{idPersonaje}}';">Borrar</button>
-                    <button type="button" id="cancel1">Cancelar</button>
+                    <form action = "/tvshows/personajes/del" method="POST">
+                        {% csrf_token %}
+                        <h4>Borrar personaje {{personaje.idPersonaje}} ?</h4>
+                        <input type="hidden" name="idPersonaje" value="{{personaje.idPersonaje}}">
+                        <input type="hidden" name="nombre" placeholder="nombre" value="{{personaje.nombre}}">
+                        <input type="hidden" name="imagen" placeholder="url de la imagen" value="{{personaje.imagen}}">
+                        <input type="hidden" name="idSerie" placeholder="id serie" value="{{personaje.idSerie}}">
+                        <button type="submit" >Borrar</button>
+                        <button type="button" id="cancel1">Cancelar</button>
+                    </form>
                 </div>
                 <div id="modificar" style="display: none">
-                    <h4>Modificar personaje {{idPersonaje}}</h4>
-                    <input type="text" name="nombre" placeholder="nombre"></br></br>
-                    <input type="text" name="imagen" placeholder="url de la imagen"></br></br>
-                    <input type="text" name="idSerie" placeholder="id serie"></br></br>
-                    <button type="submit">Modificar</button>
-                    <button type="button" id="cancel2">Cancelar</button>
+                    <form action = "/tvshows/personajes/update" method="POST">
+                        {% csrf_token %}
+                        <h4>Modificar personaje {{idPersonaje}}</h4>
+                        <input type="hidden" name="idPersonaje" value="{{personaje.idPersonaje}}">
+                        <input type="text" name="nombre" placeholder="nombre" value="{{personaje.nombre}}"></br></br>
+                        <input type="text" name="imagen" placeholder="url de la imagen" value="{{personaje.imagen}}"></br></br>
+                        <input type="text" name="idSerie" placeholder="id serie" value="{{personaje.idSerie}}"></br></br>
+                        <button type="submit">Mod</button>
+                        <button type="button" id="cancel2">Cancelar</button>
+                    </form>
                 </div>
 
                 </form>
@@ -88,10 +97,10 @@
                         <th>SERIE</th>
                     </tr>
                     <tr>
-                        <td>{{idPersonaje}}</td>
-                        <td>{{nombre}}</td>
-                        <td><img src="{{imagen}}" height="100"> </td>
-                        <td>{{idSerie}}</td>
+                        <td>{{personaje.idPersonaje}}</td>
+                        <td>{{personaje.nombre}}</td>
+                        <td><img src="{{personaje.imagen}}" height="100"> </td>
+                        <td>{{personaje.idSerie}}</td>
                     </tr>
                 </table>
             </fieldset>

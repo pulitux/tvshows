@@ -30,7 +30,7 @@
     <div data-role="content">
         <fieldset style ="border: 3px solid black; padding: 20px; border-radius=10px color:black;">
 
-            <div id="botones1">del/search
+            <div id="botones1">
                 {% if all == False %}
                     <button type="button" onclick="window.location.href='/tvshows/personajes/lista';">Lista</button></br></br>
                 {% endif %}
@@ -49,7 +49,7 @@
                     <input type="text" name="nombre" placeholder="nombre"></br></br>
                     <input type="text" name="imagen" placeholder="url de la imagen"></br></br>
                     <input type="text" name="idSerie" placeholder="id serie"></br></br>
-                    <button type="submit" name="create">OK</button>
+                    <button type="submit" name="create">Añadir</button>
                     <button type="button" id="cancel">Cancelar</button>
                 </form>
             </div>

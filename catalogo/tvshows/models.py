@@ -89,12 +89,12 @@ class Personaje:
                 print(f'Other error occurred: {err}')
 
     def add(self): # post
-        url = self.api_url
+        # url = self.api_url
         personaje = {'idPersonaje': int(self.idPersonaje),
                      'nombre': self.nombre.capitalize(),
                      'imagen': self.imagen,
                      'idSerie': int(self.idSerie)}
-        response = requests.post(url, json=personaje)
+        response = requests.post(self.api_url, json=personaje)
         print (response.status_code)
         print (response)
         # personaje = requests.get(url)
@@ -102,10 +102,10 @@ class Personaje:
 
     def mod(self): # put
         url = self.api_url
-        personaje = {'idPersonaje': self.idPersonaje,
+        personaje = {'idPersonaje': int(self.idPersonaje),
                      'nombre': self.nombre,
                      'imagen': self.imagen,
-                     'idSerie': self.idSerie}
+                     'idSerie': int(self.idSerie)}
         response = requests.put(url, json=personaje)
         return response.status_code
 
