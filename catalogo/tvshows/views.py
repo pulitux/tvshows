@@ -113,7 +113,8 @@ def s_add(request):
     serie.idSerie = request.POST['idSerie']
     serie.nombre = request.POST['nombre']
     serie.imagen = request.POST['imagen']
-    serie.idSerie = request.POST['idSerie']
+    serie.puntuacion = request.POST['puntuacion']
+    serie.anyo = request.POST['anyo']
     s = {'idSerie': serie.idSerie,
          'nombre': serie.nombre,
          'imagen': serie.imagen,
