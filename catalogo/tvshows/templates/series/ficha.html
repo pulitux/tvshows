@@ -3,7 +3,7 @@
 {% load static %}
 <head>
     <meta charset="UTF-8">
-    <title>Personajes</title>
+    <title>Series</title>
     <style>
         body {
             font-family: arial, sans-serif;
@@ -27,34 +27,36 @@
 <body>
     <script src="{% static 'jquery-3.2.1.min.js'%}" type="text/javascript"></script>
 
-        <div data-role="header"><h2>Personajes</h2></div>
+        <div data-role="header"><h2>Series</h2></div>
         <div data-role="content">
             <fieldset style ="border: 3px solid black; padding: 20px; border-radius=10px color:black;">
                 <div id = "opciones_botones">
-                    <button type="button" onclick="window.location.href='/tvshows/personajes/lista';">Lista</button>
+                    <button type="button" onclick="window.location.href='/tvshows/series/lista';">Lista</button>
                     <button type="button" id="delete">Borrar</button>
                     <button type="button" id="modify">Modificar</button>
                 </div>
                 <div id="borrar" style="display: none">
-                    <form action = "/tvshows/personajes/del" method="POST">
+                    <form action = "/tvshows/series/del" method="POST">
                         {% csrf_token %}
-                        <h4>Borrar personaje {{personaje.idPersonaje}} ?</h4>
-                        <input type="hidden" name="idPersonaje" value="{{personaje.idPersonaje}}">
-                        <input type="hidden" name="nombre" placeholder="nombre" value="{{personaje.nombre}}">
-                        <input type="hidden" name="imagen" placeholder="url de la imagen" value="{{personaje.imagen}}">
-                        <input type="hidden" name="idSerie" placeholder="id serie" value="{{personaje.idSerie}}">
+                        <h4>Borrar serie {{serie.idSerie}} ?</h4>
+                        <input type="hidden" name="idSerie" value="{{serie.idSerie}}">
+                        <input type="hidden" name="nombre" placeholder="nombre" value="{{serie.nombre}}">
+                        <input type="hidden" name="imagen" placeholder="url de la imagen" value="{{serie.imagen}}">
+                        <input type="hidden" name="puntuacion" placeholder="puntuacion" value="{{serie.puntuacion}}">
+                        <input type="hidden" name="anyo" placeholder="año" value="{{serie.anyo}}"></br></br>
                         <button type="submit" >Borrar</button>
                         <button type="button" id="cancel1">Cancelar</button>
                     </form>
                 </div>
                 <div id="modificar" style="display: none">
-                    <form action = "/tvshows/personajes/update" method="POST">
+                    <form action = "/tvshows/series/update" method="POST">
                         {% csrf_token %}
-                        <h4>Modificar personaje {{idPersonaje}}</h4>
-                        <input type="hidden" name="idPersonaje" value="{{personaje.idPersonaje}}">
-                        <input type="text" name="nombre" placeholder="nombre" value="{{personaje.nombre}}"></br></br>
-                        <input type="text" name="imagen" placeholder="url de la imagen" value="{{personaje.imagen}}"></br></br>
-                        <input type="text" name="idSerie" placeholder="id serie" value="{{personaje.idSerie}}"></br></br>
+                        <h4>Modificar serie {{idSerie}}</h4>
+                        <input type="hidden" name="idSerie" value="{{serie.idSerie}}">
+                        <input type="text" name="nombre" placeholder="nombre" value="{{serie.nombre}}"></br></br>
+                        <input type="text" name="imagen" placeholder="url de la imagen" value="{{serie.imagen}}"></br></br>
+                        <input type="text" name="puntuacion" placeholder="puntuacion" value="{{serie.puntuacion}}"></br></br>
+                        <input type="text" name="anyo" placeholder="año" value="{{serie.anyo}}"></br></br>
                         <button type="submit">Modificar</button>
                         <button type="button" id="cancel2">Cancelar</button>
                     </form>
@@ -88,19 +90,21 @@
             </fieldset>
             <br/><br/>
             <fieldset style ="border: 3px solid black; padding: 20px; color:black;">
-            <legend>Lista de Personajes</legend>
+            <legend>Lista de Series</legend>
                 <table border="0" style="width:100%">
                     <tr>
                         <th>ID</th>
                         <th>NOMBRE</th>
                         <th>IMAGEN</th>
-                        <th>SERIE</th>
+                        <th>PUNTUACION</th>
+                        <th>AÑO</th>
                     </tr>
                     <tr>
-                        <td>{{personaje.idPersonaje}}</td>
-                        <td>{{personaje.nombre}}</td>
-                        <td><img src="{{personaje.imagen}}" height="100"> </td>
-                        <td>{{personaje.idSerie}}</td>
+                        <td>{{serie.idSerie}}</td>
+                        <td>{{serie.nombre}}</td>
+                        <td><img src="{{serie.imagen}}" height="100"> </td>
+                        <td>{{serie.puntuacion}}</td>
+                        <td>{{serie.anyo}}</td>
                     </tr>
                 </table>
             </fieldset>

@@ -10,4 +10,13 @@ urlpatterns = [
     path('personajes/search', views.p_search, name='p_search'),
     path('personajes/update', views.p_update, name='p_update'),
     path('', views.index, name='index'),
+
+    path('series/index', views.s_lista, name='s_lista'),
+    path('series/lista', views.s_lista, name='s_lista'),
+    path('series/ficha/', views.s_ficha, name='s_ficha'),
+    path('series/del', views.s_delete, name='s_delete'),
+    path('series/add', views.s_add, name='s_add'),
+    path('series/search', views.s_search, name='s_search'),
+    path('series/update', views.s_update, name='s_update'),
+    path('', views.index, name='index'),
 ]
