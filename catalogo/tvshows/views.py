@@ -10,12 +10,13 @@ catalogo = Catalogo()
 def index(request):
     # contexto = {'lista': catalogo.personajes,
     #             'all': True}
+    # catalogo = Catalogo()
     return render(request, 'catalogo/index.html')
 
 # Vistas de personaje
 
 def p_lista(request):
-    catalogo = Catalogo()
+    # catalogo = Catalogo()
     contexto = {'lista': catalogo.personajes,
                 'all': True}
     return render(request, 'personajes/index.html', contexto)
@@ -23,49 +24,56 @@ def p_lista(request):
 def p_search(request):
     lista = []
     search_term = request.POST['search_term']
-    catalogo = Catalogo()
+    # catalogo = Catalogo()
     for personaje in catalogo.personajes:
         if search_term.lower() in personaje.nombre.lower():
+            lista.append(personaje)
+        if search_term.lower() in personaje.serie.nombre.lower():
             lista.append(personaje)
     contexto = {'lista': lista,
                 'all': False}
     return render(request, 'personajes/index.html', contexto)
 
 def p_ficha(request):
-    personaje = Personaje()
-    id = request.GET.get('id')
-    personaje.read(id)
-    p = {'idPersonaje': personaje.idPersonaje,
-         'nombre': personaje.nombre,
-         'imagen': personaje.imagen,
-         'idPersonaje': personaje.idPersonaje}
+    # id = request.GET.get('idPersonaje')
+    # personaje.read(id)
+    personaje = catalogo.personaje(request.GET.get('idPersonaje'))
+    print(personaje)
+    # p = {'idPersonaje': personaje.idPersonaje,
+    #      'nombre': personaje.nombre,
+    #      'imagen': personaje.imagen,
+    #      'idPersonaje': personaje.idPersonaje}
     return render(request, 'personajes/ficha.html', {'personaje': personaje})
 
 
 def p_add(request):
+    global catalogo
     personaje = Personaje()
     personaje.idPersonaje = request.POST['idPersonaje']
     personaje.nombre = request.POST['nombre']
     personaje.imagen = request.POST['imagen']
-    personaje.idPersonaje = request.POST['idPersonaje']
-    p = {'idPersonaje': personaje.idPersonaje,
-         'nombre': personaje.nombre,
-         'imagen': personaje.imagen,
-         'idPersonaje': personaje.idPersonaje}
-    print(p)
+    personaje.idSerie = request.POST['idSerie']
+    # p = {'idPersonaje': personaje.idPersonaje,
+    #      'nombre': personaje.nombre,
+    #      'imagen': personaje.imagen,
+    #      'idSerie': personaje.idSerie}
+    # print(p)
     personaje.add()
     catalogo = Catalogo()
-    return render(request, 'personajes/ficha.html', p)
+    return render(request, 'personajes/ficha.html', {'personaje': personaje})
 
 def p_delete(request):
-    personaje = Personaje()
-    personaje.idPersonaje = request.POST['idPersonaje']
+    # personaje = Personaje()
+    # personaje.idPersonaje = request.POST['idPersonaje']
+    global catalogo
+    personaje = catalogo.personaje(request.GET.get('idPersonaje'))
     personaje.delete()
     catalogo = Catalogo()
     return render(request, 'personajes/index.html', {'catalogo': catalogo, 'all': True})
 
 def p_update(request):
-    personaje = Personaje()
+    global catalogo
+    personaje = catalogo.personaje(request.GET.get('idPersonaje'))
     personaje.idPersonaje = request.POST['idPersonaje']
     personaje.nombre = request.POST['nombre']
     personaje.imagen = request.POST['imagen']
