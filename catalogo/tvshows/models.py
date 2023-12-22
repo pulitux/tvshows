@@ -120,7 +120,7 @@ class Personaje:
         return response.status_code
 
     def delete(self): # delete
-        url = self.api_url + "/" + self.idPersonaje
+        url = self.api_url + "/" + str(self.idPersonaje)
         response = requests.delete(url)
         return response.status_code
 

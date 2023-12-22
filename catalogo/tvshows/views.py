@@ -17,9 +17,9 @@ def index(request):
 
 def p_lista(request):
     # catalogo = Catalogo()
-    contexto = {'lista': catalogo.personajes,
-                'all': True}
-    return render(request, 'personajes/index.html', contexto)
+    # contexto = {'lista': catalogo.personajes,
+    #             'all': True}
+    return render(request, 'personajes/index.html', {'lista': catalogo.personajes, 'all': True})
 
 def p_search(request):
     lista = []
@@ -66,14 +66,15 @@ def p_delete(request):
     # personaje = Personaje()
     # personaje.idPersonaje = request.POST['idPersonaje']
     global catalogo
-    personaje = catalogo.personaje(request.GET.get('idPersonaje'))
+    personaje = catalogo.personaje(request.POST['idPersonaje'])
     personaje.delete()
     catalogo = Catalogo()
-    return render(request, 'personajes/index.html', {'catalogo': catalogo, 'all': True})
+    # return render(request, 'personajes/index.html', {'catalogo': catalogo, 'all': True})
+    return render(request, 'personajes/index.html', {'lista': catalogo.personajes, 'all': True})
 
 def p_update(request):
     global catalogo
-    personaje = catalogo.personaje(request.GET.get('idPersonaje'))
+    personaje = catalogo.personaje(request.POST.get('idPersonaje'))
     personaje.idPersonaje = request.POST['idPersonaje']
     personaje.nombre = request.POST['nombre']
     personaje.imagen = request.POST['imagen']

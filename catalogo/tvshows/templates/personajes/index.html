@@ -34,6 +34,7 @@
                 {% if all == False %}
                     <button type="button" onclick="window.location.href='/tvshows/personajes/lista';">Lista</button></br></br>
                 {% endif %}
+                <button type="button" align='right' onclick="window.location.href='/tvshows/series/lista';">Series</button></br></br>
                 <form method="post" action="search">
                     {% csrf_token %}
                     <input type="text" name="search_term" placeholder="Search...">
