@@ -11,9 +11,15 @@ def index(request):
     # global catalogo = Catalogo()
     return render(request, 'catalogo/index.html')
 
-################################################################
+################################################################################################
 # Vistas de personaje
-################################################################
+#   p_lista() -> llama a index.html y pasa como contexto los personajes del catalogo (lista de objetos)
+#   p_search() -> llama a index.html y pasa como contexto los personajes del catalogo que coinciden
+#   p_ficha() -> llama a ficha.html (contexto objeto personaje)
+#   p_add() -> añade objeto y llama a ficha.html (contexto objeto personaje)
+#   p_delete() -> borra objeto y llama a index.html y pasa como contexto los personajes del catalogo
+#   p_update() -> modifica objeto y llama a ficha.html (contexto objeto personaje)
+################################################################################################
 
 def p_lista(request):
     return render(request, 'personajes/index.html', {'lista': catalogo.personajes, 'all': True})
@@ -30,7 +36,6 @@ def p_search(request):
 
 def p_ficha(request):
     personaje = catalogo.personaje(request.GET.get('idPersonaje'))
-    print(personaje)
     return render(request, 'personajes/ficha.html', {'personaje': personaje})
 
 def p_add(request):
@@ -63,9 +68,15 @@ def p_update(request):
     catalogo.personajes = personaje.lista(catalogo)
     return render(request, 'personajes/ficha.html', {'personaje': personaje})
 
-################################################################
+################################################################################################
 # Vistas de serie
-################################################################
+#   s_lista() -> llama a index.html y pasa como contexto las series del catalogo (lista de objetos)
+#   s_search() -> llama a index.html y pasa como contexto las series del catalogo que coinciden
+#   s_ficha() -> llama a ficha.html (contexto objeto serie)
+#   s_add() -> añade objeto y llama a ficha.html (contexto objeto serie)
+#   s_delete() -> borra objeto y llama a index.html y pasa como contexto los series del catalogo
+#   s_update() -> modifica objeto y llama a ficha.html (contexto objeto serie)
+################################################################################################
 
 def s_lista(request):
     global catalogo
