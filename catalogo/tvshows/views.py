@@ -9,7 +9,10 @@ catalogo = Catalogo()
 
 def index(request):
     # global catalogo = Catalogo()
-    return render(request, 'catalogo/index.html')
+    personajes = catalogo.personajes_nombres()
+    series = catalogo.series_nombres()
+    contexto = {'personajes': personajes, 'series': series}
+    return render(request, 'catalogo/index.html', contexto)
 
 ################################################################################################
 # Vistas de personaje
@@ -30,9 +33,9 @@ def p_search(request):
     for personaje in catalogo.personajes:
         if search_term.lower() in personaje.nombre.lower():
             lista.append(personaje)
-        if search_term.lower() in personaje.serie.nombre.lower():
+        elif search_term.lower() in personaje.serie.nombre.lower():
             lista.append(personaje)
-    return render(request, 'personajes/index.html', {'lista': catalogo.personajes, 'all': True})
+    return render(request, 'personajes/index.html', {'lista': lista, 'all': False})
 
 def p_ficha(request):
     personaje = catalogo.personaje(request.GET.get('idPersonaje'))
@@ -63,7 +66,6 @@ def p_update(request):
     personaje.nombre = request.POST['nombre']
     personaje.imagen = request.POST['imagen']
     personaje.idSerie = request.POST['idSerie']
-    print (personaje)
     personaje.mod()
     catalogo.personajes = personaje.lista(catalogo)
     return render(request, 'personajes/ficha.html', {'personaje': personaje})
@@ -115,7 +117,6 @@ def s_add(request):
     #      'imagen': serie.imagen,
     #      'puntuacion': serie.puntuacion,
     #      'anyo': serie.anyo}
-    # print(s)
     serie.add()
     catalogo.series = serie.lista()
     return render(request, 'series/ficha.html', {'serie': serie})

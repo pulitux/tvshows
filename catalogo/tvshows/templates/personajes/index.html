@@ -32,7 +32,7 @@
 
             <div id="botones1">
                 {% if all == False %}
-                    <button type="button" onclick="window.location.href='/tvshows/personajes/lista';">Lista</button></br></br>
+                    <button type="button" onclick="window.location.href='/tvshows/personajes/lista';">Personajes</button></br></br>
                 {% endif %}
                 <button type="button" align='right' onclick="window.location.href='/tvshows/series/lista';">Series</button></br></br>
                 <form method="post" action="search">
@@ -79,7 +79,7 @@
                 </tr>
                 {% for personaje in lista%}
                 <tr>
-                    <td>{{personaje.idPersonaje}}</td>
+                    <td><a href="ficha/?idPersonaje={{personaje.idPersonaje}}">{{personaje.idPersonaje}}</a></a></td>
                     <td><a href="ficha/?idPersonaje={{personaje.idPersonaje}}">{{personaje.nombre}}</a></a></td>
                     <td><img src="{{personaje.imagen}}" height="100" </td>
                     <td>{{personaje.serie.nombre}}</td>

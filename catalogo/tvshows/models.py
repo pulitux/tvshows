@@ -21,7 +21,6 @@ class Catalogo:
 
     def personaje(self, idPersonaje):
         for p in self.personajes:
-            print (p.idPersonaje)
             if int(p.idPersonaje) == int(idPersonaje):
                 return p
         return None
@@ -59,6 +58,35 @@ class Catalogo:
             if s.idSerie == idSerie:
                 return s
         return None
+
+    def series_ids(self):
+        l = []
+        for s in self.series:
+            i = s.idSerie
+            l.append(i)
+        return l
+
+    def series_nombres(self):
+        l = []
+        for s in self.series:
+            n = s.nombre
+            l.append(n)
+        return l
+
+    def series_imagenes(self):
+        l = []
+        for s in self.series:
+            i = s.imagen
+            l.append(i)
+        return l
+
+    def series_idsSerie(self):
+        l = []
+        for s in self.series:
+            i = s.idSerie
+            l.append(i)
+        return l
+
 
 class Personaje:
     api_url = 'https://apiseriespersonajes.azurewebsites.net/api/Personajes'
