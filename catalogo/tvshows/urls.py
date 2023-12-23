@@ -18,5 +18,6 @@ urlpatterns = [
     path('series/add', views.s_add, name='s_add'),
     path('series/search', views.s_search, name='s_search'),
     path('series/update', views.s_update, name='s_update'),
+
     path('', views.index, name='index'),
 ]

@@ -9,23 +9,23 @@ class Catalogo:
         self.series = s.lista()
         self.personajes = p.lista(self)
 
-    def personajes_tabla(self):
-        t = []
-        for p in self.personajes:
-            i = {'idPersonaje': p.idPersonaje,
-                 'nombre': p.nombre,
-                 'imagen': p.imagen,
-                 'idSerie': p.idSerie}
-            t.append(i)
-        return t
+    # def personajes_tabla(self):
+    #     t = []
+    #     for p in self.personajes:
+    #         i = {'idPersonaje': p.idPersonaje,
+    #              'nombre': p.nombre,
+    #              'imagen': p.imagen,
+    #              'idSerie': p.idSerie}
+    #         t.append(i)
+    #     return t
 
     def personaje(self, idPersonaje):
-        print (idPersonaje)
         for p in self.personajes:
             print (p.idPersonaje)
             if int(p.idPersonaje) == int(idPersonaje):
                 return p
         return None
+
     def personajes_ids(self):
         l = []
         for p in self.personajes:
@@ -63,7 +63,7 @@ class Catalogo:
 class Personaje:
     api_url = 'https://apiseriespersonajes.azurewebsites.net/api/Personajes'
 
-    def __init__(self): #, idPersonaje = 0):
+    def __init__(self):
         self.idPersonaje = None
         self.nombre = None
         self.imagen = None
@@ -82,47 +82,46 @@ class Personaje:
             p.idSerie = personaje['idSerie']
             p.serie = catalogo.serie(p.idSerie)
             lista.append(p)
-        # contexto = {'lista': lista,
-        #             'all': True}
         return lista
 
-    def read(self, id=None): # get
-        if id:
-            url = self.api_url + "/" + id
+    # def read(self, id=None): # get
+    #     if id:
+    #         url = self.api_url + "/" + id
+    #
+    #         try:
+    #             response = requests.get(url)
+    #             response.raise_for_status()
+    #             personaje = response.json()
+    #             self.idPersonaje = personaje['idPersonaje']
+    #             self.nombre = personaje['nombre']
+    #             self.imagen = personaje['imagen']
+    #             self.idSerie = personaje['idSerie']
+    #         except:
+    #             print(f'Other error occurred: {err}')
 
-            try:
-                response = requests.get(url)
-                response.raise_for_status()
-                personaje = response.json()
-                self.idPersonaje = personaje['idPersonaje']
-                self.nombre = personaje['nombre']
-                self.imagen = personaje['imagen']
-                self.idSerie = personaje['idSerie']
-            except:
-                print(f'Other error occurred: {err}')
-
-    def add(self): # post
-        # url = self.api_url
-        personaje = {'idPersonaje': int(self.idPersonaje),
-                     'nombre': self.nombre.capitalize(),
-                     'imagen': self.imagen,
-                     'idSerie': int(self.idSerie)}
-        response = requests.post(self.api_url, json=personaje)
-
-    def mod(self): # put
-        url = self.api_url
-        print (type(self.idSerie))
-        personaje = {'idPersonaje': int(self.idPersonaje),
+    def add(self):
+        self.idPersonaje = int(self.idPersonaje)
+        self.nombre = ' '.join(list(n.capitalize() for n in self.nombre.split()))
+        self.idSerie = int(self.idSerie)
+        personaje = {'idPersonaje': self.idPersonaje,
                      'nombre': self.nombre,
                      'imagen': self.imagen,
-                     'idSerie': int(self.idSerie)}
-        response = requests.put(url, json=personaje)
-        return response.status_code
+                     'idSerie': self.idSerie}
+        requests.post(self.api_url, json=personaje)
+
+    def mod(self): # put
+        self.idPersonaje = int(self.idPersonaje)
+        self.nombre = ' '.join(list(n.capitalize() for n in self.nombre.split()))
+        self.idSerie = int(self.idSerie)
+        personaje = {'idPersonaje': self.idPersonaje,
+                     'nombre': self.nombre,
+                     'imagen': self.imagen,
+                     'idSerie': self.idSerie}
+        requests.put(self.api_url, json=personaje)
 
     def delete(self): # delete
         url = self.api_url + "/" + str(self.idPersonaje)
-        response = requests.delete(url)
-        return response.status_code
+        requests.delete(url)
 
 class Serie:
     api_url = 'https://apiseriespersonajes.azurewebsites.net/api/Series'
@@ -149,14 +148,11 @@ class Serie:
             s.puntuacion = serie['puntuacion']
             s.anyo = serie['anyo']
             lista.append(s)
-        # contexto = {'lista': lista,
-        #             'all': True}
         return lista
 
-    def read(self, id=None): # get
+    def read(self, id=None):
         if id:
             url = self.api_url + "/" + str(id)
-
             try:
                 response = requests.get(url)
                 response.raise_for_status()
@@ -166,29 +162,35 @@ class Serie:
                 self.imagen = serie['imagen']
                 self.puntuacion = serie['puntuacion']
                 self.anyo = serie['anyo']
+                return True
             except:
-                print(f'Other error occurred: {err}')
+                return False
+        return False
 
-    def add(self): # post
-        # url = self.api_url
-        serie = {'idSerie': int(self.idSerie),
-                 'nombre': self.nombre.capitalize(),
+    def add(self):
+        self.idSerie = int(self.idSerie)
+        self.nombre = self.nombre.capitalize()
+        self.puntuacion = int(self.puntuacion)
+        self.anyo = int(self.anyo)
+        serie = {'idSerie': self.idSerie,
+                 'nombre': self.nombre,
                  'imagen': self.imagen,
-                 'puntuacion': int(self.puntuacion),
-                 'anyo': int(self.anyo)}
-        response = requests.post(self.api_url, json=serie)
+                 'puntuacion': self.puntuacion,
+                 'anyo': self.anyo}
+        requests.post(self.api_url, json=serie)
 
     def mod(self): # put
-        url = self.api_url
-        serie = {'idSerie': int(self.idSerie),
+        self.idSerie = int(self.idSerie)
+        self.nombre = self.nombre.capitalize()
+        self.puntuacion = int(self.puntuacion)
+        self.anyo = int(self.anyo)
+        serie = {'idSerie': self.idSerie,
                      'nombre': self.nombre,
                      'imagen': self.imagen,
-                     'puntuacion': int(self.puntuacion),
-                     'anyo': int(self.anyo)}
-        response = requests.put(url, json=serie)
-        return response.status_code
+                     'puntuacion': self.puntuacion,
+                     'anyo': self.anyo}
+        requests.put(self.api_url, json=serie)
 
     def delete(self): # delete
         url = self.api_url + "/" + self.idSerie
-        response = requests.delete(url)
-        return response.status_code
+        requests.delete(url)

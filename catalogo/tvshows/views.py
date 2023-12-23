@@ -1,50 +1,37 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render
 from .models import Personaje, Catalogo, Serie
 
-import requests
-import json
+################################################################
+# Pagina principal TODO poner bonita index.html (catalogo)
+################################################################
 
 catalogo = Catalogo()
 
-# Pagina principal TODO
 def index(request):
-    # contexto = {'lista': catalogo.personajes,
-    #             'all': True}
-    # catalogo = Catalogo()
+    # global catalogo = Catalogo()
     return render(request, 'catalogo/index.html')
 
+################################################################
 # Vistas de personaje
+################################################################
 
 def p_lista(request):
-    # catalogo = Catalogo()
-    # contexto = {'lista': catalogo.personajes,
-    #             'all': True}
     return render(request, 'personajes/index.html', {'lista': catalogo.personajes, 'all': True})
 
 def p_search(request):
     lista = []
     search_term = request.POST['search_term']
-    # catalogo = Catalogo()
     for personaje in catalogo.personajes:
         if search_term.lower() in personaje.nombre.lower():
             lista.append(personaje)
         if search_term.lower() in personaje.serie.nombre.lower():
             lista.append(personaje)
-    contexto = {'lista': lista,
-                'all': False}
-    return render(request, 'personajes/index.html', contexto)
+    return render(request, 'personajes/index.html', {'lista': catalogo.personajes, 'all': True})
 
 def p_ficha(request):
-    # id = request.GET.get('idPersonaje')
-    # personaje.read(id)
     personaje = catalogo.personaje(request.GET.get('idPersonaje'))
     print(personaje)
-    # p = {'idPersonaje': personaje.idPersonaje,
-    #      'nombre': personaje.nombre,
-    #      'imagen': personaje.imagen,
-    #      'idPersonaje': personaje.idPersonaje}
     return render(request, 'personajes/ficha.html', {'personaje': personaje})
-
 
 def p_add(request):
     global catalogo
@@ -53,23 +40,15 @@ def p_add(request):
     personaje.nombre = request.POST['nombre']
     personaje.imagen = request.POST['imagen']
     personaje.idSerie = request.POST['idSerie']
-    # p = {'idPersonaje': personaje.idPersonaje,
-    #      'nombre': personaje.nombre,
-    #      'imagen': personaje.imagen,
-    #      'idSerie': personaje.idSerie}
-    # print(p)
     personaje.add()
-    catalogo = Catalogo()
+    catalogo.personajes = personaje.lista(catalogo)
     return render(request, 'personajes/ficha.html', {'personaje': personaje})
 
 def p_delete(request):
-    # personaje = Personaje()
-    # personaje.idPersonaje = request.POST['idPersonaje']
     global catalogo
     personaje = catalogo.personaje(request.POST['idPersonaje'])
     personaje.delete()
-    catalogo = Catalogo()
-    # return render(request, 'personajes/index.html', {'catalogo': catalogo, 'all': True})
+    catalogo.personajes = personaje.lista(catalogo)
     return render(request, 'personajes/index.html', {'lista': catalogo.personajes, 'all': True})
 
 def p_update(request):
@@ -81,29 +60,24 @@ def p_update(request):
     personaje.idSerie = request.POST['idSerie']
     print (personaje)
     personaje.mod()
-    catalogo = Catalogo()
+    catalogo.personajes = personaje.lista(catalogo)
     return render(request, 'personajes/ficha.html', {'personaje': personaje})
 
+################################################################
 # Vistas de serie
+################################################################
+
 def s_lista(request):
-    catalogo = Catalogo()
-    contexto = {'lista': catalogo.series,
-                'all': True}
-    return render(request, 'series/index.html', contexto)
+    global catalogo
+    return render(request, 'series/index.html', {'lista': catalogo.series, 'all': True})
 
 def s_search(request):
     lista = []
     search_term = request.POST['search_term']
-    # url = 'https://apiseriesseries.azurewebsites.net/api/Series'
-    # response = requests.get(url)
-    # series = response.json()
-    catalogo = Catalogo()
     for serie in catalogo.series:
         if search_term.lower() in serie.nombre.lower():
             lista.append(serie)
-    contexto = {'lista': lista,
-                'all': False}
-    return render(request, 'series/index.html', contexto)
+    return render(request, 'series/index.html', {'lista': lista, 'all': False})
 
 def s_ficha(request):
     serie = Serie()
@@ -118,44 +92,39 @@ def s_ficha(request):
 
 
 def s_add(request):
+    global catalogo
     serie = Serie()
     serie.idSerie = request.POST['idSerie']
     serie.nombre = request.POST['nombre']
     serie.imagen = request.POST['imagen']
     serie.puntuacion = request.POST['puntuacion']
     serie.anyo = request.POST['anyo']
-    s = {'idSerie': serie.idSerie,
-         'nombre': serie.nombre,
-         'imagen': serie.imagen,
-         'puntuacion': serie.puntuacion,
-         'anyo': serie.anyo}
-    print(s)
+    # s = {'idSerie': serie.idSerie,
+    #      'nombre': serie.nombre,
+    #      'imagen': serie.imagen,
+    #      'puntuacion': serie.puntuacion,
+    #      'anyo': serie.anyo}
+    # print(s)
     serie.add()
-    catalogo = Catalogo()
-    return render(request, 'series/ficha.html', s)
+    catalogo.series = serie.lista()
+    return render(request, 'series/ficha.html', {'serie': serie})
 
 def s_delete(request):
+    global catalogo
     serie = Serie()
     serie.idSerie = request.POST['idSerie']
     serie.delete()
-    catalogo = Catalogo()
+    catalogo.series = serie.lista()
     return render(request, 'series/index.html', {'catalogo': catalogo, 'all': True})
 
 def s_update(request):
+    global catalogo
     serie = Serie()
     serie.idSerie = request.POST['idSerie']
     serie.nombre = request.POST['nombre']
     serie.imagen = request.POST['imagen']
     serie.puntuacion = request.POST['puntuacion']
     serie.anyo = request.POST['anyo']
-    print (serie)
     serie.mod()
-    catalogo = Catalogo()
-
+    catalogo.series = serie.lista()
     return render(request, 'series/ficha.html', {'serie': serie})
-
-# def p_read(request):
-#     personaje = Personaje()
-#     idPersonaje = request.POST['idPersonaje']
-#     personaje.read(idPersonaje)
-
