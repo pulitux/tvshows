@@ -78,14 +78,20 @@
                     <th>IMAGEN</th>
                     <th>PUNTUACION</th>
                     <th>AÑO</th>
+                    <th>PERSONAJES</th>
                 </tr>
                 {% for serie in lista%}
                 <tr>
-                    <td><a href="ficha/?id={{serie.idSerie}}">{{serie.idSerie}}</a></a></td>
-                    <td><a href="ficha/?id={{serie.idSerie}}">{{serie.nombre}}</a></a></td>
+                    <td><a href="ficha/?idSerie={{serie.idSerie}}">{{serie.idSerie}}</a></a></td>
+                    <td><a href="ficha/?idSerie={{serie.idSerie}}">{{serie.nombre}}</a></a></td>
                     <td><img src="{{serie.imagen}}" height="100" </td>
                     <td>{{serie.puntuacion}}</td>
                     <td>{{serie.anyo}}</td>
+                    <td>
+                        {% for p in serie.personajes %}
+                            <a href="/tvshows/personajes/ficha/?idPersonaje={{p.idPersonaje}}">{{p.nombre}}</a></br>
+                        {% endfor %}
+                    </td>
                 </tr>
                 {% endfor%}
             </table>

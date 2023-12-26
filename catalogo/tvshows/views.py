@@ -38,8 +38,10 @@ def p_search(request):
     return render(request, 'personajes/index.html', {'lista': lista, 'all': False})
 
 def p_ficha(request):
-    personaje = catalogo.personaje(request.GET.get('idPersonaje'))
-    return render(request, 'personajes/ficha.html', {'personaje': personaje})
+    id = request.GET.get('idPersonaje')
+    for p in catalogo.personajes:
+        if p.idPersonaje == int(id):
+            return render(request, 'personajes/ficha.html', {'personaje': p})
 
 def p_add(request):
     global catalogo
@@ -49,6 +51,7 @@ def p_add(request):
     personaje.imagen = request.POST['imagen']
     personaje.idSerie = request.POST['idSerie']
     personaje.add()
+    personaje.serie = catalogo.serie(personaje.idSerie)
     catalogo.personajes = personaje.lista(catalogo)
     return render(request, 'personajes/ficha.html', {'personaje': personaje})
 
@@ -67,6 +70,7 @@ def p_update(request):
     personaje.imagen = request.POST['imagen']
     personaje.idSerie = request.POST['idSerie']
     personaje.mod()
+    personaje.serie = catalogo.serie(personaje.idSerie)
     catalogo.personajes = personaje.lista(catalogo)
     return render(request, 'personajes/ficha.html', {'personaje': personaje})
 
@@ -93,15 +97,19 @@ def s_search(request):
     return render(request, 'series/index.html', {'lista': lista, 'all': False})
 
 def s_ficha(request):
-    serie = Serie()
-    id = request.GET.get('id')
-    serie.read(id)
-    s = {'idSerie': serie.idSerie,
-         'nombre': serie.nombre,
-         'imagen': serie.imagen,
-         'puntuacion': serie.puntuacion,
-         'anyo': serie.anyo}
-    return render(request, 'series/ficha.html', {'serie': serie})
+    id = request.GET.get('idSerie')
+    for s in catalogo.series:
+        if s.idSerie == int(id):
+            return render(request, 'series/ficha.html', {'serie': s})
+    # serie.read(id)
+    # s = {'idSerie': serie.idSerie,
+    #      'nombre': serie.nombre,
+    #      'imagen': serie.imagen,
+    #      'puntuacion': serie.puntuacion,
+    #      'anyo': serie.anyo,
+    #      'personajes': serie.personajes,
+    #      }
+    # return render(request, 'series/ficha.html', {'serie': serie})
 
 
 def s_add(request):

@@ -82,7 +82,7 @@
                     <td><a href="ficha/?idPersonaje={{personaje.idPersonaje}}">{{personaje.idPersonaje}}</a></a></td>
                     <td><a href="ficha/?idPersonaje={{personaje.idPersonaje}}">{{personaje.nombre}}</a></a></td>
                     <td><img src="{{personaje.imagen}}" height="100" </td>
-                    <td>{{personaje.serie.nombre}}</td>
+                    <td><a href="/tvshows/series/ficha/?idSerie={{personaje.idSerie}}">{{personaje.serie.nombre}}</td>
                 </tr>
                 {% endfor%}
             </table>

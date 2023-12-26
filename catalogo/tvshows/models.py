@@ -102,6 +102,8 @@ class Personaje:
         lista = []
         response = requests.get(self.api_url)
         personajes = response.json()
+        for serie in catalogo.series:
+            serie.personajes = []
         for personaje in personajes:
             p = Personaje()
             p.idPersonaje = personaje['idPersonaje']
@@ -109,6 +111,10 @@ class Personaje:
             p.imagen = personaje['imagen']
             p.idSerie = personaje['idSerie']
             p.serie = catalogo.serie(p.idSerie)
+            for s in catalogo.series:
+                if s.idSerie == p.idSerie:
+                    if p not in s.personajes:
+                        s.personajes.append(p)
             lista.append(p)
         return lista
 
@@ -134,7 +140,8 @@ class Personaje:
         personaje = {'idPersonaje': self.idPersonaje,
                      'nombre': self.nombre,
                      'imagen': self.imagen,
-                     'idSerie': self.idSerie}
+                     'idSerie': self.idSerie,
+                     }
         requests.post(self.api_url, json=personaje)
 
     def mod(self): # put
@@ -144,7 +151,8 @@ class Personaje:
         personaje = {'idPersonaje': self.idPersonaje,
                      'nombre': self.nombre,
                      'imagen': self.imagen,
-                     'idSerie': self.idSerie}
+                     'idSerie': self.idSerie,
+                     }
         requests.put(self.api_url, json=personaje)
 
     def delete(self): # delete
@@ -154,15 +162,13 @@ class Personaje:
 class Serie:
     api_url = 'https://apiseriespersonajes.azurewebsites.net/api/Series'
 
-    def __init__(self, idSerie = None):
-        if idSerie:
-            self.read(idSerie)
-        else:
-            self.idSerie = None
-            self.nombre = None
-            self.imagen = None
-            self.puntuacion = None
-            self.anyo = None
+    def __init__(self):
+        self.idSerie = None
+        self.nombre = None
+        self.imagen = None
+        self.puntuacion = None
+        self.anyo = None
+        self.personajes = []
 
     def lista(self):
         lista = []
@@ -178,22 +184,23 @@ class Serie:
             lista.append(s)
         return lista
 
-    def read(self, id=None):
-        if id:
-            url = self.api_url + "/" + str(id)
-            try:
-                response = requests.get(url)
-                response.raise_for_status()
-                serie = response.json()
-                self.idSerie = serie['idSerie']
-                self.nombre = serie['nombre']
-                self.imagen = serie['imagen']
-                self.puntuacion = serie['puntuacion']
-                self.anyo = serie['anyo']
-                return True
-            except:
-                return False
-        return False
+    # def read(self, id=None):
+    #     if id:
+    #         url = self.api_url + "/" + str(id)
+    #         try:
+    #             response = requests.get(url)
+    #             response.raise_for_status()
+    #             serie = response.json()
+    #             self.idSerie = serie['idSerie']
+    #             self.nombre = serie['nombre']
+    #             self.imagen = serie['imagen']
+    #             self.puntuacion = serie['puntuacion']
+    #             self.anyo = serie['anyo']
+    #
+    #             return True
+    #         except:
+    #             return False
+    #     return False
 
     def add(self):
         self.idSerie = int(self.idSerie)

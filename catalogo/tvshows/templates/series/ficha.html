@@ -98,6 +98,7 @@
                         <th>IMAGEN</th>
                         <th>PUNTUACION</th>
                         <th>AÑO</th>
+                        <th>PERSONAJES</th>
                     </tr>
                     <tr>
                         <td>{{serie.idSerie}}</td>
@@ -105,6 +106,11 @@
                         <td><img src="{{serie.imagen}}" height="100"> </td>
                         <td>{{serie.puntuacion}}</td>
                         <td>{{serie.anyo}}</td>
+                        <td>
+                            {% for p in serie.personajes %}
+                                <a href="/tvshows/personajes/ficha/?idPersonaje={{p.idPersonaje}}">{{p.nombre}}</a></br>
+                            {% endfor %}
+                        </td>
                     </tr>
                 </table>
             </fieldset>
