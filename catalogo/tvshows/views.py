@@ -46,7 +46,8 @@ def p_ficha(request):
 def p_add(request):
     global catalogo
     personaje = Personaje()
-    personaje.idPersonaje = request.POST['idPersonaje']
+    personaje.idPersonaje = int(request.POST['idPersonaje'])
+    print ('ID Personaje:', personaje.idPersonaje)
     personaje.nombre = request.POST['nombre']
     personaje.imagen = request.POST['imagen']
     personaje.idSerie = request.POST['idSerie']

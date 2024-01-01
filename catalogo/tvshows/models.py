@@ -134,7 +134,7 @@ class Personaje:
     #             print(f'Other error occurred: {err}')
 
     def add(self):
-        self.idPersonaje = int(self.idPersonaje)
+        # self.idPersonaje = int(self.idPersonaje)
         self.nombre = ' '.join(list(n.capitalize() for n in self.nombre.split()))
         self.idSerie = int(self.idSerie)
         personaje = {'idPersonaje': self.idPersonaje,
@@ -142,7 +142,8 @@ class Personaje:
                      'imagen': self.imagen,
                      'idSerie': self.idSerie,
                      }
-        requests.post(self.api_url, json=personaje)
+        r = requests.post(self.api_url, json=personaje)
+        print (r.status_code)
 
     def mod(self): # put
         self.idPersonaje = int(self.idPersonaje)
