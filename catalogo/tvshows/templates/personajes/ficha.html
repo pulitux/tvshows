@@ -38,7 +38,7 @@
                 <div id="borrar" style="display: none">
                     <form action = "/tvshows/personajes/del" method="POST">
                         {% csrf_token %}
-                        <h4>Borrar personaje {{personaje.idPersonaje}} ?</h4>
+                        <h4>Borrar personaje {{personaje.nombre}} ?</h4>
                         <input type="hidden" name="idPersonaje" value="{{personaje.idPersonaje}}">
                         <input type="hidden" name="nombre" placeholder="nombre" value="{{personaje.nombre}}">
                         <input type="hidden" name="imagen" placeholder="url de la imagen" value="{{personaje.imagen}}">
@@ -52,15 +52,22 @@
                         {% csrf_token %}
                         <h4>Modificar personaje {{idPersonaje}}</h4>
                         <input type="hidden" name="idPersonaje" value="{{personaje.idPersonaje}}">
-                        <input type="text" name="nombre" placeholder="nombre" value="{{personaje.nombre}}"></br></br>
-                        <input type="text" name="imagen" placeholder="url de la imagen" value="{{personaje.imagen}}"></br></br>
-                        <input type="text" name="idSerie" placeholder="id serie" value="{{personaje.idSerie}}"></br></br>
+                        <input type="text" name="nombre" placeholder="nombre" value="{{personaje.nombre}}"><br><br>
+                        <input type="text" name="imagen" placeholder="url de la imagen" value="{{personaje.imagen}}"><br><br>
+                        <select name="idSerie" id="idSerie">
+                            {% for s in series %}
+                                {% if s.idSerie == personaje.idSerie %}
+                                    <option value={{s.idSerie}} selected>{{s.nombre}}</option>
+                                {% else %}
+                                    <option value={{s.idSerie}}>{{s.nombre}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
                         <button type="submit">Modificar</button>
                         <button type="button" id="cancel2">Cancelar</button>
                     </form>
                 </div>
 
-                </form>
                 <script>
                     $(document).ready(function () {
                         $("#delete").click(function () {
@@ -86,24 +93,22 @@
                     });
                 </script>
             </fieldset>
-            <br/><br/>
+            <br><br>
             <fieldset style ="border: 3px solid black; padding: 20px; color:black;">
-            <legend>Lista de Personajes</legend>
+            <legend>Detalles del Personaje</legend>
                 <table border="0" style="width:100%">
                     <tr>
-                        <th>ID</th>
                         <th>NOMBRE</th>
                         <th>IMAGEN</th>
                         <th>SERIE</th>
                     </tr>
                     <tr>
-                        <td>{{personaje.idPersonaje}}</td>
                         <td>{{personaje.nombre}}</td>
                         <td><img src="{{personaje.imagen}}" height="100"> </td>
-                        <td><a href="/tvshows/series/ficha/?idSerie={{personaje.idSerie}}">{{personaje.serie.nombre}}</td>
+                        <td><a href="/tvshows/series/ficha/?idSerie={{personaje.idSerie}}">{{personaje.serie.nombre}}</a></td>
                     </tr>
                 </table>
             </fieldset>
-            <br></br>
+            <br>
         </div>
 </body>

@@ -29,16 +29,15 @@
     <div data-role="header"><h2>Personajes</h2></div>
     <div data-role="content">
         <fieldset style ="border: 3px solid black; padding: 20px; border-radius=10px color:black;">
-
             <div id="botones1">
                 {% if all == False %}
-                    <button type="button" onclick="window.location.href='/tvshows/personajes/lista';">Personajes</button></br></br>
+                    <button type="button" onclick="window.location.href='/tvshows/personajes/lista';">Personajes</button><br><br>
                 {% endif %}
-                <button type="button" align='right' onclick="window.location.href='/tvshows/series/lista';">Series</button></br></br>
+                <button type="button" onclick="window.location.href='/tvshows/series/lista';">Series</button><br><br>
                 <form method="post" action="search">
                     {% csrf_token %}
                     <input type="text" name="search_term" placeholder="Search...">
-                    <button type="submit" >Buscar</button></br></br>
+                    <button type="submit" >Buscar</button><br><br>
                 </form>
                 <button type="button" id="add" >Nuevo Personaje</button>
             </div>
@@ -46,10 +45,17 @@
                 <form method="post" action="/tvshows/personajes/add">
                     {% csrf_token %}
                     <h4>Añadir personaje</h4>
-                    <input type="hidden" name="idPersonaje" value="1"></br></br>
-                    <input type="text" name="nombre" placeholder="nombre"></br></br>
-                    <input type="text" name="imagen" placeholder="url de la imagen"></br></br>
-                    <input type="text" name="idSerie" placeholder="id serie"></br></br>
+                    <input type="text" name="nombre" placeholder="nombre"><br><br>
+                    <input type="text" name="imagen" placeholder="url de la imagen"><br><br>
+                        <select name="idSerie" id="idSerie">
+                            {% for s in series %}
+                                {% if s.idSerie == personaje.idSerie %}
+                                    <option value={{s.idSerie}} selected>{{s.nombre}}</option>
+                                {% else %}
+                                    <option value={{s.idSerie}}>{{s.nombre}}</option>
+                                {% endif %}
+                            {% endfor %}
+                        </select>
                     <button type="submit" name="create">Añadir</button>
                     <button type="button" id="cancel">Cancelar</button>
                 </form>
@@ -72,21 +78,19 @@
         <legend>Lista de Personajes</legend>
             <table border="0" style="width:100%">
                 <tr>
-                    <th>ID</th>
                     <th>NOMBRE</th>
                     <th>IMAGEN</th>
                     <th>SERIE</th>
                 </tr>
-                {% for personaje in lista%}
+                {% for personaje in personajes %}
                 <tr>
-                    <td><a href="ficha/?idPersonaje={{personaje.idPersonaje}}">{{personaje.idPersonaje}}</a></a></td>
-                    <td><a href="ficha/?idPersonaje={{personaje.idPersonaje}}">{{personaje.nombre}}</a></a></td>
-                    <td><img src="{{personaje.imagen}}" height="100" </td>
-                    <td><a href="/tvshows/series/ficha/?idSerie={{personaje.idSerie}}">{{personaje.serie.nombre}}</td>
+                    <td><a href="ficha/?idPersonaje={{personaje.idPersonaje}}">{{personaje.nombre}}</a></td>
+                    <td><img src="{{personaje.imagen}}" height="100"> </td>
+                    <td><a href="/tvshows/series/ficha/?idSerie={{personaje.idSerie}}">{{personaje.serie.nombre}}</a></td>
                 </tr>
                 {% endfor%}
             </table>
         </fieldset>
-        <br></br>
+        <br><br>
     </div>
 </body>

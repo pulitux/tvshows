@@ -32,25 +32,24 @@
 
             <div id="botones1">
                 {% if all == False %}
-                    <button type="button" onclick="window.location.href='/tvshows/series/lista';">Series</button></br></br>
+                    <button type="button" onclick="window.location.href='/tvshows/series/lista';">Series</button><br><br>
                 {% endif %}
-                    <button type="button" onclick="window.location.href='/tvshows/personajes/lista';">Personajes</button></br></br>
+                    <button type="button" onclick="window.location.href='/tvshows/personajes/lista';">Personajes</button><br><br>
                 <form method="post" action="search">
                     {% csrf_token %}
                     <input type="text" name="search_term" placeholder="Search...">
-                    <button type="submit" >Buscar</button></br></br>
+                    <button type="submit" >Buscar</button><br><br>
                 </form>
-                <button type="button" id="add" >Nuevo Serie</button>
+                <button type="button" id="add">Nuevo Serie</button>
             </div>
             <div id="anyadir" style="display: none">
                 <form method="post" action="/tvshows/series/add">
                     {% csrf_token %}
                     <h4>Añadir serie</h4>
-                    <input type="text" name="idSerie" placeholder="ID"></br></br>
-                    <input type="text" name="nombre" placeholder="nombre"></br></br>
-                    <input type="text" name="imagen" placeholder="url de la imagen"></br></br>
-                    <input type="text" name="puntuacion" placeholder="puntuacion"></br></br>
-                    <input type="text" name="anyo" placeholder="año"></br></br>
+                    <input type="text" name="nombre" placeholder="nombre"><br><br>
+                    <input type="text" name="imagen" placeholder="url de la imagen"><br><br>
+                    <input type="text" name="puntuacion" placeholder="puntuacion"><br><br>
+                    <input type="text" name="anyo" placeholder="año"><br><br>
                     <button type="submit" name="create">Añadir</button>
                     <button type="button" id="cancel">Cancelar</button>
                 </form>
@@ -73,29 +72,27 @@
         <legend>Lista de Series</legend>
             <table border="0" style="width:100%">
                 <tr>
-                    <th>ID</th>
                     <th>NOMBRE</th>
                     <th>IMAGEN</th>
                     <th>PUNTUACION</th>
                     <th>AÑO</th>
                     <th>PERSONAJES</th>
                 </tr>
-                {% for serie in lista%}
+                {% for serie in series%}
                 <tr>
-                    <td><a href="ficha/?idSerie={{serie.idSerie}}">{{serie.idSerie}}</a></a></td>
-                    <td><a href="ficha/?idSerie={{serie.idSerie}}">{{serie.nombre}}</a></a></td>
-                    <td><img src="{{serie.imagen}}" height="100" </td>
+                    <td><a href="ficha/?idSerie={{serie.idSerie}}">{{serie.nombre}}</a></td>
+                    <td><img src="{{serie.imagen}}" height="100"></td>
                     <td>{{serie.puntuacion}}</td>
                     <td>{{serie.anyo}}</td>
                     <td>
                         {% for p in serie.personajes %}
-                            <a href="/tvshows/personajes/ficha/?idPersonaje={{p.idPersonaje}}">{{p.nombre}}</a></br>
+                            <a href="/tvshows/personajes/ficha/?idPersonaje={{p.idPersonaje}}">{{p.nombre}}</a><br>
                         {% endfor %}
                     </td>
                 </tr>
                 {% endfor%}
             </table>
         </fieldset>
-        <br></br>
+        <br>
     </div>
 </body>

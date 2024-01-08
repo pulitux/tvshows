@@ -38,12 +38,12 @@
                 <div id="borrar" style="display: none">
                     <form action = "/tvshows/series/del" method="POST">
                         {% csrf_token %}
-                        <h4>Borrar serie {{serie.idSerie}} ?</h4>
+                        <h4>Borrar serie {{serie.nombre}} ?</h4>
                         <input type="hidden" name="idSerie" value="{{serie.idSerie}}">
                         <input type="hidden" name="nombre" placeholder="nombre" value="{{serie.nombre}}">
                         <input type="hidden" name="imagen" placeholder="url de la imagen" value="{{serie.imagen}}">
                         <input type="hidden" name="puntuacion" placeholder="puntuacion" value="{{serie.puntuacion}}">
-                        <input type="hidden" name="anyo" placeholder="año" value="{{serie.anyo}}"></br></br>
+                        <input type="hidden" name="anyo" placeholder="año" value="{{serie.anyo}}"><br><br>
                         <button type="submit" >Borrar</button>
                         <button type="button" id="cancel1">Cancelar</button>
                     </form>
@@ -53,16 +53,15 @@
                         {% csrf_token %}
                         <h4>Modificar serie {{idSerie}}</h4>
                         <input type="hidden" name="idSerie" value="{{serie.idSerie}}">
-                        <input type="text" name="nombre" placeholder="nombre" value="{{serie.nombre}}"></br></br>
-                        <input type="text" name="imagen" placeholder="url de la imagen" value="{{serie.imagen}}"></br></br>
-                        <input type="text" name="puntuacion" placeholder="puntuacion" value="{{serie.puntuacion}}"></br></br>
-                        <input type="text" name="anyo" placeholder="año" value="{{serie.anyo}}"></br></br>
+                        <input type="text" name="nombre" placeholder="nombre" value="{{serie.nombre}}"><br><br>
+                        <input type="text" name="imagen" placeholder="url de la imagen" value="{{serie.imagen}}"><br><br>
+                        <input type="text" name="puntuacion" placeholder="puntuacion" value="{{serie.puntuacion}}"><br><br>
+                        <input type="text" name="anyo" placeholder="año" value="{{serie.anyo}}"><br><br>
                         <button type="submit">Modificar</button>
                         <button type="button" id="cancel2">Cancelar</button>
                     </form>
                 </div>
 
-                </form>
                 <script>
                     $(document).ready(function () {
                         $("#delete").click(function () {
@@ -88,12 +87,11 @@
                     });
                 </script>
             </fieldset>
-            <br/><br/>
+            <br><br>
             <fieldset style ="border: 3px solid black; padding: 20px; color:black;">
             <legend>Lista de Series</legend>
                 <table border="0" style="width:100%">
                     <tr>
-                        <th>ID</th>
                         <th>NOMBRE</th>
                         <th>IMAGEN</th>
                         <th>PUNTUACION</th>
@@ -101,19 +99,18 @@
                         <th>PERSONAJES</th>
                     </tr>
                     <tr>
-                        <td>{{serie.idSerie}}</td>
                         <td>{{serie.nombre}}</td>
                         <td><img src="{{serie.imagen}}" height="100"> </td>
                         <td>{{serie.puntuacion}}</td>
                         <td>{{serie.anyo}}</td>
                         <td>
                             {% for p in serie.personajes %}
-                                <a href="/tvshows/personajes/ficha/?idPersonaje={{p.idPersonaje}}">{{p.nombre}}</a></br>
+                                <a href="/tvshows/personajes/ficha/?idPersonaje={{p.idPersonaje}}">{{p.nombre}}</a><br>
                             {% endfor %}
                         </td>
                     </tr>
                 </table>
             </fieldset>
-            <br></br>
+            <br><br>
         </div>
 </body>
